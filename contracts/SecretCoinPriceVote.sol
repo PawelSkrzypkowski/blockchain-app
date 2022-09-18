@@ -5,9 +5,9 @@ contract SecretCoinPriceVote {
     uint32 public betFinalPrice;
     uint public betUTCTime;
     uint public singleBetValue;
-    BetTaker[] public betTakers;
+    BetTaker[] betTakers;
     uint public totalBetsValue;
-    uint8 totalBets;
+    uint8 public totalBets;
     bool public finished;
 
     event BetStarted(address betOwner, uint betTime);

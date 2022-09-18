@@ -3,6 +3,8 @@ import Web3 from 'web3'
 import './App.css'
 import {WRAPPER_ABI, WRAPPER_CONTRACT_ADDRESS, VOTE_ABI} from "./blockchainConfig";
 import web3 from "web3";
+import DtPicker  from 'react-calendar-datetime-picker';
+import 'react-calendar-datetime-picker/dist/index.css';
 import './bootstrap.min.css';
 import {Button, Form} from "react-bootstrap";
 
@@ -39,8 +41,13 @@ class App extends Component {
       let wrapperContract = new this.state.web3Instance.eth.Contract(WRAPPER_ABI, WRAPPER_CONTRACT_ADDRESS);
       let votingAddress = await wrapperContract.methods.getActiveVoting(i).call();
       let contract = new this.state.web3Instance.eth.Contract(VOTE_ABI, votingAddress);
-      let betUTCTime = await contract.methods.betUTCTime.call();
-      rows = rows + ', ' + betUTCTime;
+      let betUTCTime = await contract.methods.betUTCTime().call();
+      let betFinalPrice = await contract.methods.betFinalPrice().call();
+      let singleBetValue = await contract.methods.singleBetValue().call();
+      let totalBetsValue = await contract.methods.totalBetsValue().call();
+      let totalBets = await contract.methods.totalBets().call();
+      rows = rows + '\n' + 'time: ' + betUTCTime + ", finalPrice: " + betFinalPrice + ', single bet value: ' +
+          singleBetValue + ', total bets value: ' + totalBetsValue + ', number of bets: ' + totalBets;
     }
     this.setState({activeVotingRows: rows});
   }
@@ -63,7 +70,12 @@ class App extends Component {
   }
 
   handleBetTime = event => {
-    this.setState({betTime: event.target.value});
+    console.log(event)
+    if (event === undefined) {
+      return;
+    }
+    let date = new Date(event.year, event.month, event.day, event.hour, event.minute);
+    this.setState({betTime: date.getTime()});
   }
 
   render() {
@@ -78,15 +90,21 @@ class App extends Component {
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBetTime">
               <Form.Label>Bet time in millis UTC</Form.Label>
-              <Form.Control type="number" placeholder="1662401639365"
-                            onChange={this.handleBetTime} />
+              <DtPicker
+                  onChange={this.handleBetTime}
+                  type='single'
+                  local='en'
+                  withTime
+                  showWeekend
+                  showTimeInput
+              />
             </Form.Group>
             <Button variant="primary" type="submit">
               Submit
             </Button>
           </Form>
           <p>Active voting: {this.state.activeVotingCount}</p>
-          {this.state.activeVotingRows}
+          <p>{this.state.activeVotingRows}</p>
           <p>Finished voting: {this.state.finishedVotingCount}</p>
         </div>
     );

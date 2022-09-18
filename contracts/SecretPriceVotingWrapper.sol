@@ -46,12 +46,14 @@ contract SecretPriceVotingWrapper {
         uint currentActiveCount = 0;
         for (uint i=0; i < count; i++) {
             if (finished && PriceVote(votes[i]).isFinished() || !finished && !PriceVote(votes[i]).isFinished()) {
-                if (count == currentActiveCount) {
+                if (id == currentActiveCount) {
                     votingAddress = votes[i];
+                    return votingAddress;
                 } else {
                     currentActiveCount++;
                 }
             }
         }
+        return votingAddress;
     }
 }

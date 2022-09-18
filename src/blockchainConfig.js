@@ -1,4 +1,4 @@
-export const WRAPPER_CONTRACT_ADDRESS = "0x7407829c772fb6293f5a7cd2f69636b5D03e407D";
+export const WRAPPER_CONTRACT_ADDRESS = "0x590649e23676446f21985fFc49E3E47AFA37CAE4";
 
 export const WRAPPER_ABI = [
     {
@@ -127,9 +127,9 @@ export const VOTE_ABI = [
     {
         "inputs": [
             {
-                "internalType": "uint8",
+                "internalType": "uint256",
                 "name": "betValue",
-                "type": "uint8"
+                "type": "uint256"
             },
             {
                 "internalType": "uint256",
@@ -186,35 +186,6 @@ export const VOTE_ABI = [
         "type": "function"
     },
     {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "name": "betTakers",
-        "outputs": [
-            {
-                "internalType": "uint32",
-                "name": "betPrice",
-                "type": "uint32"
-            },
-            {
-                "internalType": "address",
-                "name": "takerAddress",
-                "type": "address"
-            },
-            {
-                "internalType": "bool",
-                "name": "valid",
-                "type": "bool"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
         "inputs": [],
         "name": "betUTCTime",
         "outputs": [
@@ -248,6 +219,19 @@ export const VOTE_ABI = [
                 "internalType": "uint256",
                 "name": "",
                 "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "totalBets",
+        "outputs": [
+            {
+                "internalType": "uint8",
+                "name": "",
+                "type": "uint8"
             }
         ],
         "stateMutability": "view",
